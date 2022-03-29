@@ -1,8 +1,11 @@
 import express from "express";
-import { createNewAthleteCtrl } from "./athletes.controller.js";
+import {
+  createNewAthleteCtrl,
+  getAllAthleteEventsByEmailCtrl,
+} from "./athletes.controller.js";
 
 const router = express.Router();
 
-router.post("/", createNewAthleteCtrl);
+router.post("/", createNewAthleteCtrl).get("/", getAllAthleteEventsByEmailCtrl);
 
 export default router;

@@ -22,6 +22,6 @@ app.use("/boxes", validateAuth, validateBoxUserByEmail, boxesRouter);
 app.use("/events/box", validateAuth, eventsRouter);
 app.use("/events/user", validateAuth, validateUserByEmail, eventsRouter);
 app.use("/events", eventsRouter);
-app.use("/athletes", validateUserByEmail, athletesRouter);
+app.use("/athletes", validateAuth, validateUserByEmail, athletesRouter);
 
 app.listen(port, () => console.log(`Servidor levantado en el puerto ${port}`));

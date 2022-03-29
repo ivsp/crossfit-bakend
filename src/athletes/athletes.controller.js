@@ -2,11 +2,12 @@ import {
   createNewAthleteByEmailAndBody,
   modifyAthleteByEmailAndBody,
   retrieveAtheleteByEmail,
+  retrievellAthleteEventsByEmail,
 } from "./athletes.model.js";
 
 export const createNewAthleteCtrl = async (req, res) => {
   const email = req.email;
-  const { body } = req.body;
+  const body = req.body;
   const athlete = await retrieveAtheleteByEmail(email);
   if (athlete === null) {
     //creo el nuevo usuario
@@ -28,5 +29,19 @@ export const createNewAthleteCtrl = async (req, res) => {
       ...athlete,
       ...newObjEvents,
     }); //devuelvo el documento con la nueva informacion
+  }
+};
+
+export const getAllAthleteEventsByEmailCtrl = async (req, res) => {
+  //lamo al usuario
+  const email = req.email;
+  try {
+    const athlete = await retrievellAthleteEventsByEmail(email);
+    res.status(202).json(athlete.events); // paso 2
+  } catch (err) {
+    console.error(err);
+    res
+      .status(404)
+      .json({ error: "El usuario no se ha apuntado a ningun evento" });
   }
 };

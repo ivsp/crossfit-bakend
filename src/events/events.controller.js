@@ -12,7 +12,7 @@ export const getCurrentsEventsInfoByEmailCtrl = async (req, res) => {
   const email = req.email;
   try {
     const events = await retrieveAllCurrentsEventsByEmail(email);
-    res.status(201).json(events); // paso 2
+    res.status(202).json(events); // paso 2
   } catch (err) {
     console.error(err);
     res
@@ -59,14 +59,12 @@ export const getCurrentEventsInfoCtrl = async (req, res) => {
 export const addUserToaEventByEmailAndEvNameCtrl = async (req, res) => {
   try {
     const email = req.email;
-    const { evName } = req.body;
+    const { eventName } = req.body;
     const newPerson = [email];
-    const event = await retrieveEventInfoByName(evName);
-    console.log("constroler email", email);
-    console.log("controler event", event);
-    console.log("req", req);
+    const event = await retrieveEventInfoByName(eventName);
+
     if (event !== null) {
-      const newUSer = await addUserToaEventByNameAndEmail(evName, email);
+      const newUSer = await addUserToaEventByNameAndEmail(eventName, email);
       if (newUSer !== null) {
         const newArr = event.eventJoinPerson.concat(newPerson);
         const updateJoinPerson = {
