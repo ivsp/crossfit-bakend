@@ -4,7 +4,7 @@ import {
   retrieveAllEventsByEmail,
   retrieveEventInfoByName,
 } from "./../events/events.model.js";
-
+import { Public } from "../middleware/file-save.middleware.js";
 /**
  * 1. Si el token es correcto y el evento no existe lo creo
  * 2. Devuelvo el evento creado
@@ -12,7 +12,13 @@ import {
  */
 export const createEventCtrl = async (req, res) => {
   const email = req.email;
-  const body = req.body;
+  const img = `${Public}${req.file.filename}`;
+
+  const body = {
+    ...req.body,
+    file: img,
+  };
+
   const { eventName } = req.body;
   const event = await retrieveEventInfoByName(eventName); //función que busca el evento por nombre
   if (event === null) {
@@ -30,7 +36,11 @@ export const createEventCtrl = async (req, res) => {
 export const modifyEventCtrl = async (req, res) => {
   const email = req.email;
   const { name } = req.query;
-  const body = req.body;
+  const img = `${Public}${req.file.filename}`;
+  const body = {
+    ...req.body,
+    file: img,
+  };
   const newNAme = body.name;
   const event = await retrieveEventInfoByName(name);
   if (event !== null && event.email === email) {

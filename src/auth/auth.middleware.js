@@ -1,6 +1,7 @@
 import * as EmailValidator from "email-validator";
 import jwt from "jsonwebtoken";
-import { jwt_secret } from "./auth.secrets.js";
+
+const { jwt_secret } = process.env;
 
 /**
  * Validar que el email es correcto

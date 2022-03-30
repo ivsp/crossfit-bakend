@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import {} from "dotenv/config";
 import authRouter from "./auth/auth.router.js";
 import usersRouter from "./users/users.router.js";
 import { validateAuth } from "./auth/auth.middleware.js";
@@ -11,7 +12,7 @@ import athletesRouter from "./athletes/athletes.router.js";
 import opinionsRouter from "./opinions/opinions.router.js";
 
 const app = express();
-const port = 4000;
+const port = process.env.PORT || 4000;
 
 app.use(cors());
 app.use(express.json());
@@ -25,5 +26,6 @@ app.use("/events/user", validateAuth, validateUserByEmail, eventsRouter);
 app.use("/events", eventsRouter);
 app.use("/athletes", validateAuth, validateUserByEmail, athletesRouter);
 app.use("/opinions", validateAuth, opinionsRouter);
+app.use("/static", express.static("public-static"));
 
 app.listen(port, () => console.log(`Servidor levantado en el puerto ${port}`));
