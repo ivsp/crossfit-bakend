@@ -8,6 +8,7 @@ import { validateBoxUserByEmail } from "./boxes/boxes.middleware.js";
 import eventsRouter from "./events/events.router.js";
 import { validateUserByEmail } from "./users/users.middleware.js";
 import athletesRouter from "./athletes/athletes.router.js";
+import opinionsRouter from "./opinions/opinions.router.js";
 
 const app = express();
 const port = 4000;
@@ -23,5 +24,6 @@ app.use("/events/box", validateAuth, eventsRouter);
 app.use("/events/user", validateAuth, validateUserByEmail, eventsRouter);
 app.use("/events", eventsRouter);
 app.use("/athletes", validateAuth, validateUserByEmail, athletesRouter);
+app.use("/opinions", validateAuth, opinionsRouter);
 
 app.listen(port, () => console.log(`Servidor levantado en el puerto ${port}`));

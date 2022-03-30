@@ -14,8 +14,6 @@ export const createEventCtrl = async (req, res) => {
   const email = req.email;
   const body = req.body;
   const { eventName } = req.body;
-  console.log(eventName);
-  console.log(body);
   const event = await retrieveEventInfoByName(eventName); //función que busca el evento por nombre
   if (event === null) {
     const newEvent = await createEventByEmailAndBody(email, body);
