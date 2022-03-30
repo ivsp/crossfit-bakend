@@ -1,7 +1,8 @@
 import { MongoClient } from "mongodb";
 
-const URI =
-  "mongodb+srv://ivsp:crossfit_web@hellocluster.olzv6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const { DB_PW } = process.env;
+
+const URI = `mongodb+srv://ivsp:${DB_PW}@hellocluster.olzv6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(URI);
 const DATABASE_NAME = "crossfitweb";
 const COLLECTION_NAME = "events";
@@ -93,6 +94,66 @@ export const retrieveAllPastsEventsByEmail = async (email) => {
     const query = { eventEndDate: { $lte: new Date().getTime() }, email };
     const options = { projection: { _id: 0 } };
     return await events.find(query, options).toArray();
+  } catch (err) {
+    console.error(err);
+  } finally {
+    client.close();
+  }
+};
+
+export const deletePastsEventsInfoByEmailAndName = async (email, eventName) => {
+  try {
+    await client.connect();
+    const db = client.db(DATABASE_NAME);
+    const events = db.collection(COLLECTION_NAME);
+    const query = { eventName, email };
+    const options = { projection: { _id: 0 } };
+    return await events.deleteOne(query);
+  } catch (err) {
+    console.error(err);
+  } finally {
+    client.close();
+  }
+};
+
+export const retrieveAllCurrentsEvents = async () => {
+  try {
+    await client.connect();
+    const db = client.db(DATABASE_NAME);
+    const events = db.collection(COLLECTION_NAME);
+    const query = { eventEndDate: { $gte: new Date().getTime() } };
+    const options = { projection: { _id: 0 } };
+    return await events.find(query, options).toArray();
+  } catch (err) {
+    console.error(err);
+  } finally {
+    client.close();
+  }
+};
+
+export const addUserToaEventByNameAndEmail = async (evName, email) => {
+  try {
+    await client.connect();
+    const db = client.db(DATABASE_NAME);
+    const events = db.collection(COLLECTION_NAME);
+    const newPerson = [email];
+    const query = { eventName: evName };
+    const options = { projection: { _id: 0 } };
+    const event = await events.findOne(query, options);
+    const user = event.eventJoinPerson.findIndex((p) => p === email);
+    if (user === -1) {
+      const newArr = event.eventJoinPerson.concat(newPerson);
+      // create a document that sets the plot of the movie
+      const body = {
+        eventJoinPerson: newArr,
+      };
+      const updateDoc = {
+        $set: body,
+      };
+      return await events.updateOne({ eventName: evName }, updateDoc);
+    } else {
+      return null;
+    }
   } catch (err) {
     console.error(err);
   } finally {

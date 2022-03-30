@@ -1,6 +1,6 @@
 import { retrieveUserInfoByEmail } from "../users/users.model.js";
 
-export const validateTypeUserByEmail = async (req, res, next) => {
+export const validateBoxUserByEmail = async (req, res, next) => {
   const email = req.email;
   const user = await retrieveUserInfoByEmail(email);
   if (user.type === "box") {

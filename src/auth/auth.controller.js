@@ -12,10 +12,10 @@ import {
 } from "./auth.model.js";
 import { generateValidationToken, encodePassword } from "./auth.utils.js";
 import { sendValidationEmail } from "../adapters/email.js";
-import { jwt_secret } from "./auth.secrets.js";
 // importo la librería JWT para generar un token JWT
 import jwt from "jsonwebtoken";
 
+const { jwt_secret } = process.env;
 /**
  * 1. Van a venir los datos de registro en el body. Habrá que validar el body
  * 2. Generar la entidad usuario y guardarla en BBDD
