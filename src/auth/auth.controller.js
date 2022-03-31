@@ -35,7 +35,7 @@ export const registerCtrl = async (req, res) => {
       //ojo que el host es el de nuestra aplicación de react
       sendValidationEmail(
         req.body.email,
-        `http://localhost:3000/validate?token=${token}`
+        `https://wodtarget.netlify.app/validate?token=${token}`
       );
       res.sendStatus(201);
     } else {
