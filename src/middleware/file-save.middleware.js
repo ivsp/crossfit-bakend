@@ -1,14 +1,14 @@
 import multer from "multer";
 
 const storageEngine = multer.diskStorage({
-  destination: function (req, file, callback) {
-    callback(null, "./public-static");
+  destination: function (req, file, cb) {
+    cb(null, "public-static");
   },
-  filename: function (req, file, callback) {
-    callback(null, file.originalname); //estructurar la info desde el cliente
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
   },
 });
 
-export const uploadMiddleware = multer({ storage: storageEngine });
+export const upload = multer({ storage: storageEngine });
 
 export const Public = "static/";

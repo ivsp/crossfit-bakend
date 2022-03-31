@@ -13,12 +13,32 @@ import { Public } from "../middleware/file-save.middleware.js";
 export const createEventCtrl = async (req, res) => {
   const email = req.email;
   const img = `${Public}${req.file.filename}`;
+  const {
+    eventStartDate,
+    eventEndDate,
+    eventLimitPerson,
+    clasificationStartDate,
+    clasificationEndDate,
+    semifinalStartDate,
+    semifinalEndDate,
+    finalStartDate,
+    finalEndDate,
+  } = req.body;
 
   const body = {
     ...req.body,
     file: img,
+    eventStartDate: parseInt(eventStartDate),
+    eventEndDate: parseInt(eventEndDate),
+    eventLimitPerson: parseInt(eventLimitPerson),
+    eventJoinPerson: [],
+    clasificationStartDate: parseInt(clasificationStartDate),
+    clasificationEndDate: parseInt(clasificationEndDate),
+    semifinalStartDate: parseInt(semifinalStartDate),
+    semifinalEndDate: parseInt(semifinalEndDate),
+    finalStartDate: parseInt(finalStartDate),
+    finalEndDate: parseInt(finalEndDate),
   };
-
   const { eventName } = req.body;
   const event = await retrieveEventInfoByName(eventName); //función que busca el evento por nombre
   if (event === null) {
@@ -37,10 +57,32 @@ export const modifyEventCtrl = async (req, res) => {
   const email = req.email;
   const { name } = req.query;
   const img = `${Public}${req.file.filename}`;
+  const {
+    eventStartDate,
+    eventEndDate,
+    eventLimitPerson,
+    clasificationStartDate,
+    clasificationEndDate,
+    semifinalStartDate,
+    semifinalEndDate,
+    finalStartDate,
+    finalEndDate,
+  } = req.body;
+
   const body = {
     ...req.body,
     file: img,
+    eventStartDate: parseInt(eventStartDate),
+    eventEndDate: parseInt(eventEndDate),
+    eventLimitPerson: parseInt(eventLimitPerson),
+    clasificationStartDate: parseInt(clasificationStartDate),
+    clasificationEndDate: parseInt(clasificationEndDate),
+    semifinalStartDate: parseInt(semifinalStartDate),
+    semifinalEndDate: parseInt(semifinalEndDate),
+    finalStartDate: parseInt(finalStartDate),
+    finalEndDate: parseInt(finalEndDate),
   };
+
   const newNAme = body.name;
   const event = await retrieveEventInfoByName(name);
   if (event !== null && event.email === email) {

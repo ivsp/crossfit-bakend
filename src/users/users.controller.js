@@ -3,6 +3,7 @@ import {
   modifyUserDataByEmailAndBody,
   retrieveUserInfoByEmail,
 } from "./users.model.js";
+import { Public } from "../middleware/file-save.middleware.js";
 
 export const getUserInfo = async (req, res) => {
   // llamo al usuario
@@ -45,15 +46,26 @@ export const logoutCtrl = async (req, res) => {
  */
 export const modifyDataCtrl = async (req, res) => {
   const email = req.email;
-  const body = req.body;
+  const img = `${Public}${req.file.filename}`;
+  console.log("user controller img", img);
+  const body = {
+    ...req.body,
+    file: img,
+  };
+  console.log("user controller body", body);
   const user = await retrieveUserInfoByEmail(email);
   if (user !== null) {
     // paso 2
     // existe el usuario con esas condiciones
     //le modifico los datos que me manda en el body
     await modifyUserDataByEmailAndBody(email, body);
+    const newUserData = {
+      ...user,
+      ...body,
+    };
+    console.log("new user", newUserData);
 
-    res.status(201).json(user); // paso 3
+    res.status(201).json(newUserData); // paso 3
   } else {
     res.sendStatus(404).json({ error: "El usuario no existe" });
   }

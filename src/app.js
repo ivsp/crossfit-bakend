@@ -1,6 +1,6 @@
+import {} from "dotenv/config";
 import express from "express";
 import cors from "cors";
-import {} from "dotenv/config";
 import authRouter from "./auth/auth.router.js";
 import usersRouter from "./users/users.router.js";
 import { validateAuth } from "./auth/auth.middleware.js";
